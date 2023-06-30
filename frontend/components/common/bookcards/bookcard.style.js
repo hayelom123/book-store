@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   title: {},
   bottomContainer: {
     paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   textContainer: {
     flexDirection: "row",

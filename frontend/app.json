@@ -4,7 +4,11 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "frontend",
-    "slug": "frontend"
+    "name": "Book Store",
+    "slug": "Book Store",
+    "splash": {
+      "image": "./splashScreen.png",
+      "backgroundColor": "#FFFFFF"
+    }
   }
 }
