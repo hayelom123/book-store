@@ -26,3 +26,5 @@ http://localhost:8000/api/book [post]//create or upload new product
   coverImage //file
   price   //number
 ```
+
+![Alt text](image.png)
