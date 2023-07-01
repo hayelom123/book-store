@@ -8,10 +8,33 @@ Install my-project with npm
 
 ```bash
   git clone https://github.com/hayelom123/book-store.git
+  //add .env variables
   cd backend npm i
   npm start
 
 ```
+
+## Create product
+
+.env //create environment variable in backend folder with the following variables
+
+```bash
+  NODE_ENV
+  HOST
+  PORT
+  MONGODB_URL
+  cloud_name
+  api_key
+  api_secret
+  JWT_SECRET
+  JWT_ACCESS_EXPIRATION_MINUTES
+  JWT_REFRESH_EXPIRATION_DAYS
+  JWT_RESET_PASSWORD_EXPIRATION_MINUTES
+  JWT_VERIFY_EMAIL_EXPIRATION_MINUTES
+
+```
+
+## Create product
 
 then create some books
 like the following
