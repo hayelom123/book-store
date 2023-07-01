@@ -1,14 +1,16 @@
-import { View, Text } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from "./chatcard.style";
 import { Avatar } from "react-native-paper";
+import icons from "../../../constants/icons";
+import IconButton from "../icon-btn/IconButton";
 const ChatCard = () => {
   return (
     <View style={styles.chatContainer}>
       <View style={styles.firstRow}>
         <View style={styles.userInfo}>
-          <Avatar.Image size={50} />
-          <Text style={styles.name}>안녕 나 응애</Text>
+          <Avatar.Image size={50} source={icons.avatarSender} />
+          <Text style={styles.name}>안녕나응애</Text>
           <Text style={styles.time}>1일전</Text>
         </View>
       </View>
@@ -20,17 +22,36 @@ const ChatCard = () => {
           올라온다고 하니 꼭 봐주세용~!
         </Text>
 
-        <View style={styles.iconsContainer}></View>
+        <View style={styles.iconsContainer}>
+          <View style={styles.icons}>
+            <IconButton path={icons.heart} />
+            <Text style={styles.iconsText}>5</Text>
+          </View>
+          <View style={styles.icons}>
+            <IconButton path={icons.msg} />
+            <Text style={styles.iconsText}>5</Text>
+          </View>
+        </View>
         <View style={styles.replyContainer}>
           <View style={styles.firstRow}>
             <View style={styles.userInfo}>
-              <Avatar.Image size={50} />
+              <Avatar.Image size={50} source={icons.avatarReply} />
               <Text style={styles.name}>ㅇㅅㅇ</Text>
               <Text style={styles.time}>1일전</Text>
             </View>
           </View>
           <View style={styles.msgContainer}>
             <Text>오 대박! 라이브 리뷰 오늘 올라온대요? 챙겨봐야겠다</Text>
+            <View style={styles.iconsContainer}>
+              <View style={styles.icons}>
+                <IconButton path={icons.heart} />
+                <Text style={styles.iconsText}>5</Text>
+              </View>
+              {/* <View style={styles.icons}>
+                <IconButton path={icons.msg} />
+                <Text style={styles.iconsText}>5</Text>
+              </View> */}
+            </View>
           </View>
         </View>
       </View>

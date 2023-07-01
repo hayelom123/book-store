@@ -5,19 +5,26 @@ import {
   ActivityIndicator,
   ScrollView,
   RefreshControl,
+  Image,
+  TextInput,
+  useWindowDimensions,
 } from "react-native";
 import { Stack, useRouter, useLocalSearchParams } from "expo-router";
 // import { SliderBox } from "react-native-image-slider-box";
 
-import React from "react";
+import React, { useState } from "react";
 import ScreenHeaderBtn from "../../components/common/header/ScreenHeaderBtn";
 import icons from "../../constants/icons";
 import styles from "../../styles/detail.style";
 import currencyFormat from "../../utils/currencyfrmat";
 import ChatCard from "../../components/common/chatcard/ChatCard";
+import IconButton from "../../components/common/icon-btn/IconButton";
+import Carousel from "../../components/carousel/Carousel";
+import useFetch from "../../hooks/useFetch";
+import ENDPOINT from "../../api/contstants";
 
 function BookDeatil() {
-  const images = [
+  let images = [
     "https://source.unsplash.com/1024x768/?nature",
     "https://source.unsplash.com/1024x768/?water",
     "https://source.unsplash.com/1024x768/?girl",
@@ -26,57 +33,102 @@ function BookDeatil() {
   ];
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
-      <Stack.Screen
-        options={{
-          headerStyle: {},
-          headerLeft: () => (
-            <ScreenHeaderBtn
-              iconUrl={icons.chevronLeft}
-              dimension="60%"
-              handlePress={() => router.back()}
-            />
-          ),
-          headerTitleAlign: "center",
-          headerTitle: id,
-          headerShadowVisible: false,
-        }}
-      />
-      <View>
-        {/* <SliderBox
-          images={images}
-          autoplay={true}
-          autoplayInterval={10000}
-          circleLoop={true}
-        /> */}
-      </View>
-      <View style={styles.chatContainer}>
-        <Text style={styles.title}>title</Text>
-        <Text>
-          Description of the book... Lorem Ipsum is simply dummy text of the
-          printing and typesetting industry. Lorem Ipsum has been the industry's
-          standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has
-          survived not only five centuries, but also the leap into electronic
-          typesetting, remaining essentially unchanged. It was popularised in
-          the 1960s with the release of Letraset sheets containing Lorem Ipsum
-          passages, and more recently with desktop publishing software like
-          Aldus PageMaker including versions of Lorem Ipsum.
-        </Text>
-        <View style={styles.textContainer}>
-          <Text style={styles.discount}>10%</Text>
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>{currencyFormat(57600)}</Text>
-            <Text style={styles.currency}>원</Text>
+  const [refreshing, setRefreshing] = useState(false);
+  const { data, loading, error, retry } = useFetch({
+    path: `/api/book/${id}`,
+  });
+
+  if (data) {
+    images = [data.coverImage, ...images];
+  }
+
+  if (data)
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+        <Stack.Screen
+          options={{
+            headerStyle: {},
+            headerLeft: () => (
+              <ScreenHeaderBtn
+                iconUrl={icons.chevronLeft}
+                dimension="60%"
+                handlePress={() => router.back()}
+              />
+            ),
+            headerTitleAlign: "center",
+            headerTitle: data.title,
+            headerBackTitleVisible: false,
+            headerShadowVisible: false,
+          }}
+        />
+        {loading && (
+          <View>
+            <ActivityIndicator size={50} />
           </View>
+        )}
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={retry} />
+          }
+        >
+          <Carousel images={images} />
+
+          <View style={{ flex: 1 }}>
+            <View style={styles.chatContainer}>
+              <Text style={styles.title}>{data.title}</Text>
+              <Text>{data.description}</Text>
+              <View style={styles.textContainer}>
+                <Text style={styles.discount}>{data.discountRate}%</Text>
+                <View style={styles.priceContainer}>
+                  <Text style={styles.price}>{currencyFormat(data.price)}</Text>
+                  <Text style={styles.currency}>원</Text>
+                </View>
+              </View>
+            </View>
+            <View style={{ backgroundColor: "#F7F8FA", height: 2 }}></View>
+            <View style={styles.chatContainer}>
+              <ChatCard />
+            </View>
+          </View>
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            padding: 20,
+            zIndex: 10,
+            backgroundColor: "white",
+            borderTopColor: "#F7F8FA",
+            borderTopWidth: 2,
+            alignItems: "center",
+          }}
+        >
+          <IconButton path={icons.image} />
+          <TextInput
+            placeholder="댓글을 남겨주세요."
+            style={{ flex: 1, padding: 5 }}
+          />
+          <Text>등록</Text>
         </View>
+      </SafeAreaView>
+    );
+  if (error)
+    return (
+      <View style={{ paddingVertical: 50 }}>
+        <Text style={{ color: "red", textAlign: "center" }}>
+          {error.message}
+        </Text>
+        <Button title="Retry" onPress={retry} />
+        {loading && (
+          <View>
+            <ActivityIndicator size={50} />
+          </View>
+        )}
       </View>
-      <View style={{ backgroundColor: "#F7F8FA", height: 2 }}></View>
-      <View style={styles.chatContainer}>
-        <ChatCard />
-      </View>
-    </SafeAreaView>
+    );
+  return (
+    <View>
+      <ActivityIndicator size={50} />
+    </View>
   );
 }
 

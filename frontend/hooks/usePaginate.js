@@ -24,16 +24,19 @@ export default usePaginate = (
   }, []);
 
   const fetchData = async () => {
+    seterror(null);
     if (pageEnd) return;
 
-    option.path = `${option.path}?skip=${page}&limit=${size}`;
+    option.path = `${option.path}?page=${page}&size=${size}`;
     setLoading(true);
     apiCall({
       ...option,
-      callback: ({ products }) => {
-        setData((prev) => [...prev, ...products]);
-        if (products.length < size) {
-          pageEnd(true);
+      callback: ({ data: newData }) => {
+        console.log("newdata:", newData);
+        // { products }
+        setData((prev) => [...prev, ...newData]);
+        if (newData.length < size) {
+          setPageEnd(true);
         }
       },
       onFailure: (err) => {

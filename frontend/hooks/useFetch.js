@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import { apiCall } from "../api/api";
 
-export default useFetch = ({}) => {
+export default useFetch = (
+  option = {
+    path: "",
+    method: "get",
+    data: {},
+    callback: (data) => data,
+    onFailure: (err) => err,
+    token: "",
+  }
+) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [error, seterror] = useState();
@@ -9,17 +18,24 @@ export default useFetch = ({}) => {
     fetchData();
   }, []);
   const fetchData = async () => {
+    seterror(null);
+
+    option.path = `${option.path}`;
     setLoading(true);
-    apiCall()
-      .then((data) => {
-        setData(data);
-      })
-      .catch((err) => {
+    apiCall({
+      ...option,
+      callback: ({ data: newData }) => {
+        setData({ ...newData });
+      },
+      onFailure: (err) => {
         seterror(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      },
+    }).then(() => {
+      setLoading(false);
+    });
   };
-  return { data, loading, error };
+  const retry = () => {
+    fetchData();
+  };
+  return { data, loading, error, retry };
 };

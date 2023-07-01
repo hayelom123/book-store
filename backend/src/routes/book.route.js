@@ -3,7 +3,8 @@ const validate = require("../middlewares/validate");
 const upload = require("../middlewares/imageupload");
 const { bookController } = require("../controllers");
 const { bookValidations } = require("../validations");
-
+const cloudinary = require("../utils/cloudnary");
+const deleteFile = require("../utils/delete.files");
 const router = express.Router();
 
 //create and get product post for creating and get for getting all books
@@ -13,7 +14,21 @@ router
     upload("images", "image/").single("coverImage"),
     async (req, res, next) => {
       if (req.file) {
-        req.body["coverImage"] = "/images/" + req.file.filename;
+        await cloudinary.v2.uploader.upload(
+          req.file.path,
+          {
+            public_id: "olympic_flag",
+          },
+          function (error, result) {
+            if (error) {
+              return next(error);
+            }
+            // console.log(result);
+            req.body["coverImage"] = result.url;
+            deleteFile(req.file.path);
+          }
+        );
+        //req.body["coverImage"] = "/images/" + req.file.filename;//if you want store it in local folder
       }
       next();
     },

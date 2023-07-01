@@ -13,7 +13,11 @@ import BookCard from "../components/common/bookcards/BookCard";
 import usePaginate from "../hooks/usePaginate";
 function Home() {
   const [refreshing, setRefreshing] = useState(false);
-  const { data, loading, error, nextPage, onRefresh, pageEnd } = usePaginate();
+  const { data, loading, error, nextPage, onRefresh, pageEnd } = usePaginate({
+    path: "/api/book",
+    method: "GET",
+  });
+
   const renderItem = useCallback(
     ({ item }) => <BookCard item={item} />,
     [data]
