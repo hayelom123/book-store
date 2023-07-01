@@ -14,11 +14,12 @@ router
     upload("images", "image/").single("coverImage"),
     async (req, res, next) => {
       if (req.file) {
+        // {
+        //     public_id: "olympic_flag",
+        //   },
         await cloudinary.v2.uploader.upload(
           req.file.path,
-          {
-            public_id: "olympic_flag",
-          },
+
           function (error, result) {
             if (error) {
               return next(error);
