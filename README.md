@@ -34,7 +34,7 @@ Install my-project with npm
 
 ```
 
-## Create product
+## Create Book
 
 then create some books
 like the following
@@ -51,3 +51,15 @@ http://localhost:8000/api/book [post]//create or upload new product
 ```
 
 ![Alt text](image.png)
+
+## Delete Book
+
+![Alt text](image-1.png)
+
+## Get All Books
+
+![Alt text](image-2.png)
+
+## Get Book Detail
+
+![Alt text](image-3.png)
