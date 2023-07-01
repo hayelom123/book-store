@@ -6,9 +6,13 @@
     },
     "name": "Book Store",
     "slug": "Book Store",
+    "description": "You   get the knowledge you desire",
+    "version": "1.0.0",
+    "orientation": "portrait",
     "splash": {
       "image": "./splashScreen.png",
       "backgroundColor": "#FFFFFF"
-    }
+    },
+    "icon": "./icon.png"
   }
 }
