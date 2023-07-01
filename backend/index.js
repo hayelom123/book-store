@@ -3,12 +3,18 @@ const mongoose = require("mongoose");
 const app = require("./src/app");
 const config = require("./src/config/config");
 
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  console.log("Connected to MongoDB");
-});
+mongoose
+  .connect(config.mongoose.url, config.mongoose.options)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log("db connection failed");
+    console.log(err);
+  });
 
 const server = app.listen(config.PORT, () => {
-  console.log(`app is listening on ${config.HOST}:${config.PORT}`);
+  console.log(`app is listening on  ${config.PORT}`);
 });
 
 const exitHandler = () => {
