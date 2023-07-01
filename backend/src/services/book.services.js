@@ -23,7 +23,7 @@ const getAllBooks = async (body) => {
     page = body["page"] * body["size"];
     size = body["size"];
   }
-  return Book.find({}).skip(page).limit(size);
+  return Book.find({}).skip(page).limit(size).sort({ createdAt: -1 });
 };
 
 module.exports = {

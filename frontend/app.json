@@ -5,7 +5,7 @@
       "bundler": "metro"
     },
     "name": "Book Store",
-    "slug": "Book Store",
+    "slug": "Book-Store",
     "description": "You   get the knowledge you desire",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,6 +13,14 @@
       "image": "./splashScreen.png",
       "backgroundColor": "#FFFFFF"
     },
-    "icon": "./icon.png"
+    "icon": "./icon.png",
+    "extra": {
+      "eas": {
+        "projectId": "f98ece01-7a30-4150-853f-3959a506d946"
+      }
+    },
+    "android": {
+      "package": "com.hayelom.BookStore"
+    }
   }
 }
