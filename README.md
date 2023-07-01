@@ -2,6 +2,10 @@
 
 # BookStore
 
+live backe end server https://book-store-0aph.onrender.com
+download the app to test the server form
+https://expo.dev/accounts/hayelom/projects/Book-Store/builds/dc5c361a-879d-4f3b-8a5f-f2e73f6a7599
+
 ## Installation
 
 Install my-project with npm
